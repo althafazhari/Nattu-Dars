@@ -787,11 +787,11 @@
           <div class="fr">
             <div class="fg">
               <label for="fm">Mobile Number</label>
-              <input type="tel" id="fm" placeholder="+973 XXXX XXXX" />
+              <input type="tel" id="fm" placeholder="e.g. +973XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" maxlength="15" />
             </div>
             <div class="fg">
               <label for="fw">WhatsApp Number <span class="rq">*</span></label>
-              <input type="tel" id="fw" placeholder="+973 XXXX XXXX" required />
+              <input type="tel" id="fw" placeholder="e.g. +973XXXXXXXX" required oninput="this.value = this.value.replace(/[^0-9+]/g, '')" maxlength="15" />
               <div class="ferr" id="ew">WhatsApp number is required.</div>
             </div>
           </div>
@@ -1015,6 +1015,32 @@
 
   </div>
 
+  <!-- EDIT MODAL -->
+  <div id="edit-modal" class="modal">
+    <div class="lcrd" style="max-width:450px; background:#fff; padding:28px;">
+      <h2 style="font-size:18px; font-weight:700; margin-bottom:18px; text-align:center;">Edit Registration</h2>
+      <form id="efm" novalidate>
+        <input type="hidden" id="e-id" />
+        <div class="fg">
+          <label for="e-name">Name <span class="rq">*</span></label>
+          <input type="text" id="e-name" required />
+        </div>
+        <div class="fg">
+          <label for="e-mobile">Mobile Number</label>
+          <input type="tel" id="e-mobile" placeholder="e.g. +973XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" maxlength="15" />
+        </div>
+        <div class="fg">
+          <label for="e-whatsapp">WhatsApp Number <span class="rq">*</span></label>
+          <input type="tel" id="e-whatsapp" placeholder="e.g. +973XXXXXXXX" required oninput="this.value = this.value.replace(/[^0-9+]/g, '')" maxlength="15" />
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button type="submit" class="btnp" style="flex:1; margin-top:0;">Save</button>
+          <button type="button" class="blo" style="flex:1;" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxi4udg8zsrRPOw0osnsjJFsoTs_MH08TQhPU46mXDAHSwUqR5GQxltKxd1nVzFEtQ/exec';
     var SPREADSHEET_URL = ''; https://docs.google.com/spreadsheets/d/1GXjqilIW1DNs9GHZ6DysJvv3xt38cWdwT23QWoxvwYo/edit?gid=0#gid=0
@@ -1227,9 +1253,9 @@
       var cleanMob = mob.replace(/\D/g, '');
       var cleanWa = wa.replace(/\D/g, '');
       
-      if (mob && cleanMob.length !== 12) {
+      if (mob && (cleanMob.length < 8 || cleanMob.length > 15)) {
         document.getElementById('fm').classList.add('err');
-        alert('Mobile number must be exactly 12 digits.');
+        alert('Mobile number must be between 8 and 15 digits.');
         ok = false;
       }
       
@@ -1238,9 +1264,9 @@
         document.getElementById('ew').textContent = 'WhatsApp number is required.';
         document.getElementById('ew').classList.add('show');
         ok = false;
-      } else if (cleanWa.length !== 12) {
+      } else if (cleanWa.length < 8 || cleanWa.length > 15) {
         document.getElementById('fw').classList.add('err');
-        document.getElementById('ew').textContent = 'WhatsApp number must contain exactly 12 digits.';
+        document.getElementById('ew').textContent = 'WhatsApp number must contain between 8 and 15 digits.';
         document.getElementById('ew').classList.add('show');
         ok = false;
       }
@@ -1310,12 +1336,12 @@
         }
         var cleanMob = mob.replace(/\D/g, '');
         var cleanWa = wa.replace(/\D/g, '');
-        if (mob && cleanMob.length !== 12) {
-          alert('Mobile number must be exactly 12 digits.');
+        if (mob && (cleanMob.length < 8 || cleanMob.length > 15)) {
+          alert('Mobile number must be between 8 and 15 digits.');
           return;
         }
-        if (cleanWa.length !== 12) {
-          alert('WhatsApp number must be exactly 12 digits.');
+        if (cleanWa.length < 8 || cleanWa.length > 15) {
+          alert('WhatsApp number must be between 8 and 15 digits.');
           return;
         }
         var regs = gR();
